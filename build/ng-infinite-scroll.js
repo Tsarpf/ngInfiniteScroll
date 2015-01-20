@@ -10,6 +10,7 @@ mod.directive('infiniteScroll', [
     return {
       scope: {
         infiniteScroll: '&',
+        infiniteScrollReverse: '&',
         infiniteScrollContainer: '=',
         infiniteScrollDistance: '=',
         infiniteScrollDisabled: '=',
@@ -73,6 +74,12 @@ mod.directive('infiniteScroll', [
                 return scope.$apply(scope.infiniteScroll);
               }
             }
+          } else if(offsetTop(elem) >= -(height(container)/4) && scrollEnabled) {
+              if (scope.$$phase || $rootScope.$$phase) {
+                  return scope.infiniteScrollReverse();
+              } else {
+                  return scope.$apply(scope.infiniteScrollReverse);
+              }
           } else {
             return checkWhenEnabled = false;
           }
